@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class Chessboard {
@@ -47,6 +48,18 @@ public class Chessboard {
                 row = row + byPosition;
             } else if (Direction.DOWN == direction) {
                 row = row - byPosition;
+            } else if (Direction.DIAGONAL_LEFT_UP == direction) {
+                row = row + byPosition;
+                col = col - byPosition;
+            } else if (Direction.DIAGONAL_LEFT_DOWN == direction) {
+                row = row - byPosition;
+                col = col + byPosition;
+            } else if (Direction.DIAGONAL_RIGHT_UP == direction) {
+                row = row + byPosition;
+                col = col + byPosition;
+            } else if (Direction.DIAGONAL_RIGHT_DOWN == direction) {
+                row = row - byPosition;
+                col = col - byPosition;
             }
             return isValidCellPosition(row, col)
                     ? Optional.of(this.chessBoard.get(row).get(col)) : Optional.empty();
@@ -55,31 +68,29 @@ public class Chessboard {
         return Optional.empty();
     }
 
-    public Optional<Cell> moveDiagonal(String cellKey, int byPosition
-            , Direction leftOrRight, Direction upOrDown) {
-        Optional<Cell> beginCell = this.findCellById(cellKey);
-        if (beginCell.isPresent()) {
-            Cell sourceCell = beginCell.get();
-            int row = sourceCell.getRow();
-            int col = sourceCell.getCol();
-            if (Direction.LEFT == leftOrRight && Direction.UP == upOrDown) {
-                row = row + byPosition;
-                col = col - byPosition;
-            } else if (Direction.LEFT == leftOrRight && Direction.DOWN == upOrDown) {
-                row = row - byPosition;
-                col = col + byPosition;
-            } else if (Direction.RIGHT == leftOrRight && Direction.UP == upOrDown) {
-                row = row + byPosition;
-                col = col + byPosition;
-            } else if (Direction.RIGHT == leftOrRight && Direction.DOWN == upOrDown) {
-                row = row - byPosition;
-                col = col - byPosition;
-            }
 
-            return isValidCellPosition(row, col)
-                    ? Optional.of(this.chessBoard.get(row).get(col)) : Optional.empty();
-        }
-        return Optional.empty();
+    public List<Cell> allHorizontalVerticalCells(String cellKey) {
+        List<Cell> leftRightCells = this.allCellForCellKey(cellKey
+                , Direction.LEFT
+                , Direction.RIGHT);
+
+        List<Cell> upDownCells = this.allCellForCellKey(cellKey
+                , Direction.UP
+                , Direction.DOWN);
+        leftRightCells.addAll(upDownCells);
+        return leftRightCells;
+    }
+
+    public List<Cell> allDiagonalCells(String cellKey) {
+        List<Cell> leftDiagonal = this.allCellForCellKey(cellKey
+                , Direction.DIAGONAL_LEFT_UP
+                , Direction.DIAGONAL_LEFT_DOWN);
+
+        List<Cell> rightDiagonalCells = this.allCellForCellKey(cellKey
+                , Direction.DIAGONAL_RIGHT_UP
+                , Direction.DIAGONAL_RIGHT_DOWN);
+        leftDiagonal.addAll(rightDiagonalCells);
+        return leftDiagonal;
     }
 
     public Optional<Cell> findCellById(String id) {
@@ -96,6 +107,31 @@ public class Chessboard {
             return true;
         }
         return false;
+    }
+
+    private List<Cell> allCellForCellKey(String cellKey
+            , Direction direction
+            , Direction counterDirection) {
+
+        List<Optional<Cell>> horizontalCells = new ArrayList<>();
+        Optional<Cell> leftCell = this.move(cellKey, 1, direction);
+        Optional<Cell> rightCell = this.move(cellKey, 1, counterDirection);
+        horizontalCells.add(leftCell);
+        horizontalCells.add(rightCell);
+        while (leftCell.isPresent() || rightCell.isPresent()) {
+            if (leftCell.isPresent()) {
+                leftCell = this.move(leftCell.get().getId(), 1, direction);
+                horizontalCells.add(leftCell);
+            }
+            if (rightCell.isPresent()) {
+                rightCell = this.move(rightCell.get().getId(), 1, counterDirection);
+                horizontalCells.add(rightCell);
+            }
+        }
+        return horizontalCells.stream()
+                .filter(cell -> cell.isPresent())
+                .map(cell -> cell.get())
+                .collect(Collectors.toList());
     }
 
     @Override
