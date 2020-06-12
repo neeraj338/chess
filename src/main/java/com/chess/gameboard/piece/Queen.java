@@ -9,7 +9,6 @@ import java.util.List;
 public class Queen implements Piece {
     @Override
     public List<Cell> possibleMoves(Cell beginCell) {
-        List<Cell> possibleCells = new ArrayList<>();
         Chessboard chessboard = beginCell.getChessboard();
         List<Cell> horizontalCells = chessboard.allHorizontalVerticalCells(beginCell.getId());
         List<Cell> verticalCells = chessboard.allDiagonalCells(beginCell.getId());
