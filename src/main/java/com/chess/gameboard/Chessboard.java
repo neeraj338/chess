@@ -55,7 +55,30 @@ public class Chessboard {
         return Optional.empty();
     }
 
-    public Optional<Cell> moveDiagonal(Cell beginCell, int byPosition, Direction direction) {
+    public Optional<Cell> moveDiagonal(String cellKey, int byPosition
+            , Direction leftOrRight, Direction upOrDown) {
+        Optional<Cell> beginCell = this.findCellById(cellKey);
+        if (beginCell.isPresent()) {
+            Cell sourceCell = beginCell.get();
+            int row = sourceCell.getRow();
+            int col = sourceCell.getCol();
+            if (Direction.LEFT == leftOrRight && Direction.UP == upOrDown) {
+                row = row + byPosition;
+                col = col - byPosition;
+            } else if (Direction.LEFT == leftOrRight && Direction.DOWN == upOrDown) {
+                row = row - byPosition;
+                col = col + byPosition;
+            } else if (Direction.RIGHT == leftOrRight && Direction.UP == upOrDown) {
+                row = row + byPosition;
+                col = col + byPosition;
+            } else if (Direction.RIGHT == leftOrRight && Direction.DOWN == upOrDown) {
+                row = row - byPosition;
+                col = col - byPosition;
+            }
+
+            return isValidCellPosition(row, col)
+                    ? Optional.of(this.chessBoard.get(row).get(col)) : Optional.empty();
+        }
         return Optional.empty();
     }
 

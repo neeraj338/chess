@@ -122,4 +122,114 @@ public class ChessboardTest {
         Optional<Cell> destinationCell = chessboard.move("B1", 1, Direction.DOWN);
         Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
     }
+
+    @Test
+    @DisplayName("should move diagonally towards right up side")
+    public void testMoveDiagonalRightUpOnePosition(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("B1", 1
+                , Direction.RIGHT, Direction.UP);
+        Optional<Cell> targetCell = chessboard.findCellById("C2");
+        Assert.assertThat(true, Matchers.equalTo(destinationCell.isPresent()));
+        Assert.assertThat(targetCell.get(), Matchers.equalTo(destinationCell.get()));
+    }
+
+    @Test
+    @DisplayName("should move diagonally towards right Down side")
+    public void testMoveDiagonalRightDownOnePosition(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("B2", 1
+                , Direction.RIGHT, Direction.DOWN);
+        Optional<Cell> targetCell = chessboard.findCellById("A1");
+        Assert.assertThat(true, Matchers.equalTo(destinationCell.isPresent()));
+        Assert.assertThat(targetCell.get(), Matchers.equalTo(destinationCell.get()));
+    }
+
+    @Test
+    @DisplayName("should move diagonally towards left Down side")
+    public void testMoveDiagonalLeftDownOnePosition(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("B2", 1
+                , Direction.LEFT, Direction.DOWN);
+        Optional<Cell> targetCell = chessboard.findCellById("C1");
+        Assert.assertThat(true, Matchers.equalTo(destinationCell.isPresent()));
+        Assert.assertThat(targetCell.get(), Matchers.equalTo(destinationCell.get()));
+    }
+
+    @Test
+    @DisplayName("should move diagonally towards left UP side")
+    public void testMoveDiagonalLeftUpOnePosition(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("B2", 1
+                , Direction.LEFT, Direction.UP);
+        Optional<Cell> targetCell = chessboard.findCellById("A3");
+        Assert.assertThat(true, Matchers.equalTo(destinationCell.isPresent()));
+        Assert.assertThat(targetCell.get(), Matchers.equalTo(destinationCell.get()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards left UP side for top rows cell elements")
+    public void testMoveDiagonalLeftUpOnePositionForTopRowElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("G8", 1
+                , Direction.LEFT, Direction.UP);
+
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards Right UP side for top rows cell elements")
+    public void testMoveDiagonalRightUpOnePositionForTopRowElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("G8", 1
+                , Direction.RIGHT, Direction.UP);
+
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards Right UP side for extreme right cell elements")
+    public void testMoveDiagonalRightUpOnePositionForExtremeRightColumnElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("H5", 1
+                , Direction.RIGHT, Direction.UP);
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards Right Down side for bottom cell elements")
+    public void testMoveDiagonalRightDownOnePositionForBottomCellElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("D1", 1
+                , Direction.RIGHT, Direction.DOWN);
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards Left Down side for bottom cell elements")
+    public void testMoveDiagonalLeftDownOnePositionForBottomCellElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("D1", 1
+                , Direction.LEFT, Direction.DOWN);
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
+
+    @Test
+    @DisplayName("should fail to move diagonally towards Left Up side for first column cell elements")
+    public void testMoveDiagonalLeftUpOnePositionForFirstColumnElements(){
+        Chessboard chessboard = new Chessboard();
+        chessboard.initializeGame();
+        Optional<Cell> destinationCell = chessboard.moveDiagonal("A4", 1
+                , Direction.LEFT, Direction.UP);
+        Assert.assertThat(false, Matchers.equalTo(destinationCell.isPresent()));
+    }
 }
