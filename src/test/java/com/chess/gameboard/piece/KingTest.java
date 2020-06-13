@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 public class KingTest {
 
@@ -16,10 +15,8 @@ public class KingTest {
     @DisplayName("test for king move ")
     public void testKingMove() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         Piece king = new King();
-        Optional<Cell> cell = chessboard.findCellById("A4");
-        List<Cell> possibleCells = king.possibleMoves(cell.get());
+        List<Cell> possibleCells = king.possibleMoves(chessboard, "A4");
         Assert.assertThat(possibleCells
                 , Matchers.containsInAnyOrder(
                         Matchers.hasProperty("id", Matchers.is("B3"))
@@ -33,10 +30,8 @@ public class KingTest {
     @DisplayName("test for king move ")
     public void testKingMoveChooseCellInCenter() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         Piece king = new King();
-        Optional<Cell> cell = chessboard.findCellById("E4");
-        List<Cell> possibleCells = king.possibleMoves(cell.get());
+        List<Cell> possibleCells = king.possibleMoves(chessboard, "E4");
         Assert.assertThat(possibleCells
                 , Matchers.containsInAnyOrder(
                         Matchers.hasProperty("id", Matchers.is("D3"))

@@ -11,9 +11,8 @@ import java.util.Optional;
 
 public class Pawn implements Piece {
     @Override
-    public List<Cell> possibleMoves(Cell beginCell) {
-        Chessboard chessboard = beginCell.getChessboard();
-        Optional<Cell> cell = chessboard.move(beginCell.getId(), 1, Direction.UP);
+    public List<Cell> possibleMoves(Chessboard chessboard, String beginCell) {
+        Optional<Cell> cell = chessboard.move(beginCell, 1, Direction.UP);
         return cell.isPresent() ? Arrays.asList(cell.get()) : Collections.emptyList();
     }
 }

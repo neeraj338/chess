@@ -1,13 +1,11 @@
 package com.chess.gameboard;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+
 public class Chessboard {
 
     private static final int NUMBER_OF_ROWS = 8;
@@ -19,14 +17,15 @@ public class Chessboard {
     public Chessboard() {
         cells = new ArrayList<>(TOTAL_NO_OF_SQUARE);
         chessBoard = new ArrayList<>(NUMBER_OF_COLS);
+        initializeGame();
     }
 
-    public void initializeGame() {
+    private void initializeGame() {
         for (int row = 0; row < NUMBER_OF_ROWS; row++) {
             List<Cell> rows = new ArrayList<>(NUMBER_OF_COLS);
             char cellNamePrefix = 'A';
             for (int col = 0; col < NUMBER_OF_COLS; col++) {
-                Cell cell = new Cell(row, col, String.format("%c%d", cellNamePrefix + col, row + 1), this);
+                Cell cell = new Cell(row, col, String.format("%c%d", cellNamePrefix + col, row + 1));
                 rows.add(cell);
                 this.cells.add(cell);
             }
@@ -69,7 +68,7 @@ public class Chessboard {
     }
 
 
-    public List<Cell> allHorizontalVerticalCells(String cellKey) {
+    public List<Cell> moveHorizontallyVertically(String cellKey) {
         List<Cell> leftRightCells = this.allCellForCellKey(cellKey
                 , Direction.LEFT
                 , Direction.RIGHT);
@@ -81,7 +80,7 @@ public class Chessboard {
         return leftRightCells;
     }
 
-    public List<Cell> allDiagonalCells(String cellKey) {
+    public List<Cell> moveDiagonally(String cellKey) {
         List<Cell> leftDiagonal = this.allCellForCellKey(cellKey
                 , Direction.DIAGONAL_LEFT_UP
                 , Direction.DIAGONAL_LEFT_DOWN);

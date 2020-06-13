@@ -14,8 +14,6 @@ public class Cell {
     @EqualsAndHashCode.Include
     private String id;
 
-    private Chessboard chessboard;
-
     public Cell(String id) {
         this.id = id;
     }

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 public class QueenTest {
 
@@ -16,10 +15,8 @@ public class QueenTest {
     @DisplayName("test for queen move ")
     public void testQueenMove() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         Piece queen = new Queen();
-        Optional<Cell> cell = chessboard.findCellById("A8");
-        List<Cell> possibleCells = queen.possibleMoves(cell.get());
+        List<Cell> possibleCells = queen.possibleMoves(chessboard, "A8");
         Assert.assertThat(possibleCells
                 , Matchers.containsInAnyOrder(
                         Matchers.hasProperty("id", Matchers.is("A1"))

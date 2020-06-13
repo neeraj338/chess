@@ -30,21 +30,20 @@ public class Horse implements Piece {
     }
 
     @Override
-    public List<Cell> possibleMoves(Cell beginCell) {
-        Chessboard chessboard = beginCell.getChessboard();
-        Optional<Cell> twoPositionLeft = chessboard.move(beginCell.getId()
+    public List<Cell> possibleMoves(Chessboard chessboard, String beginCell) {
+        Optional<Cell> twoPositionLeft = chessboard.move(beginCell
                 , 2, Direction.LEFT);
 
-        Optional<Cell> twoPositionRight = chessboard.move(beginCell.getId()
+        Optional<Cell> twoPositionRight = chessboard.move(beginCell
                 , 2, Direction.RIGHT);
 
-        Optional<Cell> twoPositionUp = chessboard.move(beginCell.getId()
+        Optional<Cell> twoPositionUp = chessboard.move(beginCell
                 , 2, Direction.UP);
 
-        Optional<Cell> twoPositionDown = chessboard.move(beginCell.getId()
+        Optional<Cell> twoPositionDown = chessboard.move(beginCell
                 , 2, Direction.DOWN);
 
-        List<Cell> horseLocation = Stream.of(
+        List<Cell> horseLocations = Stream.of(
                 twoPositionUp
                 , twoPositionDown)
                 .filter(cell -> cell.isPresent())
@@ -58,9 +57,9 @@ public class Horse implements Piece {
                 .filter(cell -> cell.isPresent())
                 .map(cell -> cell.get())
                 .flatMap(cell -> Horse.moveOnePositionUpOrDown(cell, chessboard).stream())
-                .collect(Collectors.toCollection(() -> horseLocation));
+                .collect(Collectors.toCollection(() -> horseLocations));
 
-        return horseLocation;
+        return horseLocations;
 
     }
 }

@@ -22,7 +22,6 @@ public class Application {
 
     public static void main(String[] arg) throws IllegalAccessException, InstantiationException {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         log.info(chessboard.toString());
         log.info("Enter a command or press any key to terminate ");
         try (Scanner sc = new Scanner(System.in);) {
@@ -33,15 +32,14 @@ public class Application {
                     System.exit(0);
                 } else {
                     String[] pieceAndCell = command.split(" ");
-                    Optional<Class<? extends Piece>> optionalClass = piecesClass
+                    Optional<Class<? extends Piece>> commandHandler = piecesClass
                             .stream()
                             .filter(cls -> cls.getSimpleName().equalsIgnoreCase(pieceAndCell[0]))
                             .findAny();
-                    Optional<Cell> cell = chessboard.findCellById(pieceAndCell[1]);
-                    if (optionalClass.isPresent()
-                            && cell.isPresent()) {
-                        Piece piece = optionalClass.get().newInstance();
-                        List<Cell> cells = piece.possibleMoves(cell.get());
+
+                    if (commandHandler.isPresent() && pieceAndCell.length >= 2 && pieceAndCell[1] != null) {
+                        Piece piece = commandHandler.get().newInstance();
+                        List<Cell> cells = piece.possibleMoves(chessboard, pieceAndCell[1].toUpperCase());
                         log.info(cells.toString());
                     } else {
                         log.info("wrong input please try again");

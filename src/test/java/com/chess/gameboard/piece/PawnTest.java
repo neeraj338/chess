@@ -16,10 +16,8 @@ public class PawnTest {
     @DisplayName("pawns move to up except top cells")
     public void testPawnsMove() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         Piece pawn = new Pawn();
-        Optional<Cell> cell = chessboard.findCellById("E4");
-        List<Cell> possibleCells = pawn.possibleMoves(cell.get());
+        List<Cell> possibleCells = pawn.possibleMoves(chessboard, "E4");
         Optional<Cell> targetCell = chessboard.findCellById("E5");
         Assert.assertThat(1, Matchers.is(Matchers.equalTo(possibleCells.size())));
         Assert.assertThat(possibleCells, Matchers.allOf(Matchers.hasItem(targetCell.get())));
@@ -29,10 +27,8 @@ public class PawnTest {
     @DisplayName("pawns can't move if reach to end ")
     public void testPawnsMoveNotAllowedFromTopRowsCell() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
         Piece pawn = new Pawn();
-        Optional<Cell> cell = chessboard.findCellById("H8");
-        List<Cell> possibleCells = pawn.possibleMoves(cell.get());
+        List<Cell> possibleCells = pawn.possibleMoves(chessboard, "H8");
         Assert.assertThat(true, Matchers.is(Matchers.equalTo(possibleCells.isEmpty())));
     }
 

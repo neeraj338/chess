@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 public class BishopTest {
 
@@ -16,10 +15,9 @@ public class BishopTest {
     @DisplayName("test for bishop move ")
     public void testBishopMove() {
         Chessboard chessboard = new Chessboard();
-        chessboard.initializeGame();
+
         Piece bishop = new Bishop();
-        Optional<Cell> cell = chessboard.findCellById("G2");
-        List<Cell> possibleCells = bishop.possibleMoves(cell.get());
+        List<Cell> possibleCells = bishop.possibleMoves(chessboard, "G2");
         Assert.assertThat(possibleCells
                 , Matchers.containsInAnyOrder(
                         Matchers.hasProperty("id", Matchers.is("H1"))

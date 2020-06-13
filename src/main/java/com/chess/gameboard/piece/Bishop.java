@@ -7,9 +7,8 @@ import java.util.List;
 
 public class Bishop implements Piece {
     @Override
-    public List<Cell> possibleMoves(Cell beginCell) {
-        Chessboard chessboard = beginCell.getChessboard();
-        List<Cell> cells = chessboard.allDiagonalCells(beginCell.getId());
+    public List<Cell> possibleMoves(Chessboard chessboard, String beginCell) {
+        List<Cell> cells = chessboard.moveDiagonally(beginCell);
         return cells;
     }
 }

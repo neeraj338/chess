@@ -8,9 +8,8 @@ import java.util.List;
 public class Rook implements Piece {
 
     @Override
-    public List<Cell> possibleMoves(Cell beginCell) {
-        Chessboard chessboard = beginCell.getChessboard();
-        List<Cell> cells = chessboard.allHorizontalVerticalCells(beginCell.getId());
+    public List<Cell> possibleMoves(Chessboard chessboard, String beginCell) {
+        List<Cell> cells = chessboard.moveHorizontallyVertically(beginCell);
         return cells;
     }
 }
