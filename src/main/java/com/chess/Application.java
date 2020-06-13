@@ -42,7 +42,7 @@ public class Application {
                         List<Cell> cells = piece.possibleMoves(chessboard, pieceAndCell[1].toUpperCase());
                         log.info(cells.toString());
                     } else {
-                        log.info("wrong input please try again");
+                        log.warning("wrong input please try again");
                     }
                 }
 
